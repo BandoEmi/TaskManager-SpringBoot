@@ -61,7 +61,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
            "(:completed IS NULL OR t.completed = :completed) AND " +
            "(:priority IS NULL OR t.priority = :priority) AND " +
            "(:category IS NULL OR t.category = :category) " +
-           "ORDER BY t.priority DESC, t.createdAt DESC")
+           "ORDER BY t.completed ASC, t.priority DESC, t.createdAt DESC")
     List<Task> findByFilters(@Param("completed") Boolean completed,
                            @Param("priority") Task.Priority priority,
                            @Param("category") String category);
