@@ -1,0 +1,10 @@
+com/taskmanager/controller/StatsController.class
+com/taskmanager/controller/TaskController.class
+com/taskmanager/Application.class
+com/taskmanager/entity/Task$Priority.class
+com/taskmanager/controller/CategoriesController.class
+com/taskmanager/dto/TaskRequest.class
+com/taskmanager/config/SwaggerConfig.class
+com/taskmanager/service/TaskService.class
+com/taskmanager/repository/TaskRepository.class
+com/taskmanager/entity/Task.class

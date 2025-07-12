@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タスク管理システム</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-tasks"></i> タスク管理システム</h1>
+                <p class="subtitle">効率的なタスク管理でプロジェクトを成功に導く</p>
+            </div>
+        </header>
+
+        <!-- 統計カード -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card total">
+                    <div class="stat-icon">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="total-tasks">0</h3>
+                        <p>総タスク数</p>
+                    </div>
+                </div>
+                <div class="stat-card completed">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="completed-tasks">0</h3>
+                        <p>完了済み</p>
+                    </div>
+                </div>
+                <div class="stat-card incomplete">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="incomplete-tasks">0</h3>
+                        <p>未完了</p>
+                    </div>
+                </div>
+                <div class="stat-card overdue">
+                    <div class="stat-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="overdue-tasks">0</h3>
+                        <p>期限切れ</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- タスク作成フォーム -->
+        <section class="form-section">
+            <div class="form-container">
+                <h2><i class="fas fa-plus-circle"></i> 新しいタスクを作成</h2>
+                <form id="task-form" class="task-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="task-title">タイトル *</label>
+                            <input type="text" id="task-title" name="title" required placeholder="タスクのタイトルを入力">
+                        </div>
+                        <div class="form-group">
+                            <label for="task-priority">優先度</label>
+                            <select id="task-priority" name="priority">
+                                <option value="LOW">低</option>
+                                <option value="MEDIUM" selected>中</option>
+                                <option value="HIGH">高</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="task-category">カテゴリ</label>
+                            <input type="text" id="task-category" name="category" placeholder="カテゴリを入力" value="一般">
+                        </div>
+                        <div class="form-group">
+                            <label for="task-due-date">期限</label>
+                            <input type="datetime-local" id="task-due-date" name="dueDate">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-description">説明</label>
+                        <textarea id="task-description" name="description" rows="3" placeholder="タスクの詳細説明"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-tags">タグ</label>
+                        <input type="text" id="task-tags" name="tags" placeholder="タグをカンマ区切りで入力">
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> タスクを作成
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 検索・フィルター -->
+        <section class="filter-section">
+            <div class="filter-container">
+                <h2><i class="fas fa-search"></i> 検索・フィルター</h2>
+                <div class="filter-controls">
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="タスクを検索...">
+                        <button id="search-btn" class="btn btn-secondary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="filter-options">
+                        <select id="status-filter">
+                            <option value="all">すべて</option>
+                            <option value="incomplete">未完了</option>
+                            <option value="completed">完了済み</option>
+                            <option value="overdue">期限切れ</option>
+                        </select>
+                        <select id="priority-filter">
+                            <option value="all">すべての優先度</option>
+                            <option value="HIGH">高</option>
+                            <option value="MEDIUM">中</option>
+                            <option value="LOW">低</option>
+                        </select>
+                        <select id="category-filter">
+                            <option value="all">すべてのカテゴリ</option>
+                        </select>
+                        <button id="clear-filters" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> クリア
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- タスク一覧 -->
+        <section class="tasks-section">
+            <div class="tasks-container">
+                <h2><i class="fas fa-list-ul"></i> タスク一覧</h2>
+                <div id="tasks-list" class="tasks-list">
+                    <!-- タスクがここに動的に表示されます -->
+                </div>
+                <div id="no-tasks" class="no-tasks" style="display: none;">
+                    <i class="fas fa-inbox"></i>
+                    <p>タスクがありません</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- タスク編集モーダル -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> タスクを編集</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-form" class="task-form">
+                    <input type="hidden" id="edit-task-id" name="id">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-task-title">タイトル *</label>
+                            <input type="text" id="edit-task-title" name="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-task-priority">優先度</label>
+                            <select id="edit-task-priority" name="priority">
+                                <option value="LOW">低</option>
+                                <option value="MEDIUM">中</option>
+                                <option value="HIGH">高</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-task-category">カテゴリ</label>
+                            <input type="text" id="edit-task-category" name="category">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-task-due-date">期限</label>
+                            <input type="datetime-local" id="edit-task-due-date" name="dueDate">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-task-description">説明</label>
+                        <textarea id="edit-task-description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-task-tags">タグ</label>
+                        <input type="text" id="edit-task-tags" name="tags">
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="edit-task-completed" name="completed">
+                            <span class="checkmark"></span>
+                            完了済み
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary modal-cancel">キャンセル</button>
+                <button type="submit" form="edit-form" class="btn btn-primary">
+                    <i class="fas fa-save"></i> 保存
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 通知エリア -->
+    <div id="notification" class="notification"></div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
